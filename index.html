@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÉLYSIA | Stationery Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <nav>
+        <h2>ÉLYSIA.</h2>
+        <ul>
+            <li><a href="#home">Beranda</a></li>
+            <li><a href="#products">Produk</a></li>
+            <li><a href="#promo">Promo</a></li>
+            <li><a href="#contact">Kontak</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="hero" id="home">
+    <div>
+        <p class="tag">STATIONERY & CREATIVE STORE</p>
+        <h1>Make Every Idea<br>Worth Writing.</h1>
+        <p>Temukan perlengkapan menulis dan seni
+        untuk menemani kreativitasmu.</p>
+        <a href="#products" class="btn">Belanja Sekarang</a>
+    </div>
+</section>
+
+<section class="products" id="products">
+    <div class="heading">
+        <p class="tag">OUR COLLECTION</p>
+        <h2>Produk Pilihan</h2>
+        <p>Temukan produk favoritmu.</p>
+    </div>
+
+    <div class="product-container">
+
+        <div class="card">
+            <div class="product-img">📓</div>
+            <p>NOTEBOOK</p>
+            <h3>Daily Journal</h3>
+            <h4>Rp35.000</h4>
+            <button onclick="addCart('Daily Journal',35000)">
+                Tambah ke Keranjang
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="product-img">🖊️</div>
+            <p>WRITING</p>
+            <h3>Premium Pen Set</h3>
+            <h4>Rp28.000</h4>
+            <button onclick="addCart('Premium Pen Set',28000)">
+                Tambah ke Keranjang
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="product-img">🎨</div>
+            <p>ART SUPPLIES</p>
+            <h3>Watercolor Set</h3>
+            <h4>Rp65.000</h4>
+            <button onclick="addCart('Watercolor Set',65000)">
+                Tambah ke Keranjang
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="product-img">📁</div>
+            <p>STORAGE</p>
+            <h3>Document Folder</h3>
+            <h4>Rp20.000</h4>
+            <button onclick="addCart('Document Folder',20000)">
+                Tambah ke Keranjang
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="product-img">✏️</div>
+            <p>DRAWING</p>
+            <h3>Sketching Pencil</h3>
+            <h4>Rp32.000</h4>
+            <button onclick="addCart('Sketching Pencil',32000)">
+                Tambah ke Keranjang
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="product-img">📒</div>
+            <p>PAPER</p>
+            <h3>Sketchbook A5</h3>
+            <h4>Rp40.000</h4>
+            <button onclick="addCart('Sketchbook A5',40000)">
+                Tambah ke Keranjang
+            </button>
+        </div>
+
+    </div>
+</section>
+
+<section class="promo" id="promo">
+    <div>
+        <p class="tag">SPECIAL OFFER</p>
+        <h2>Make More<br>With Less.</h2>
+        <p>Dapatkan diskon khusus untuk pembelian tertentu.</p>
+    </div>
+    <h2 class="discount">10% OFF</h2>
+</section>
+
+<section class="cart">
+    <p class="tag">YOUR SHOPPING</p>
+    <h2>Keranjang Belanja</h2>
+
+    <div id="cart-list">
+        <p>Belum ada produk dipilih.</p>
+    </div>
+
+    <div class="total">
+        Total: <span id="total">Rp0</span>
+    </div>
+
+    <button class="checkout" onclick="checkout()">
+        Pesan Sekarang
+    </button>
+</section>
+
+<section class="about" id="contact">
+    <p class="tag">ABOUT ÉLYSIA</p>
+    <h2>Small Things.<br>Beautiful Ideas.</h2>
+    <p>
+        ÉLYSIA menyediakan berbagai perlengkapan
+        menulis dan seni dengan kualitas pilihan
+        serta harga terjangkau.
+    </p>
+    <p>Terima kasih telah berbelanja bersama kami.</p>
+</section>
+
+<footer>
+    <h2>ÉLYSIA.</h2>
+    <p>Stationery & Creative Store</p>
+    <p>© 2026 ÉLYSIA. All Rights Reserved.</p>
+</footer>
+
+<script>
+let cart = [];
+
+function addCart(name, price) {
+    cart.push({name, price});
+    showCart();
+}
+
+function showCart() {
+    let list = document.getElementById("cart-list");
+    let total = 0;
+
+    list.innerHTML = "";
+
+    cart.forEach((item, index) => {
+        total += item.price;
+
+        list.innerHTML += `
+        <div class="cart-item">
+            <span>${item.name}</span>
+            <span>Rp${item.price.toLocaleString("id-ID")}</span>
+            <button onclick="removeCart(${index})">Hapus</button>
+        </div>`;
+    });
+
+    if(cart.length === 0) {
+        list.innerHTML = "<p>Belum ada produk dipilih.</p>";
+    }
+
+    document.getElementById("total").innerText =
+        "Rp" + total.toLocaleString("id-ID");
+}
+
+function removeCart(index) {
+    cart.splice(index, 1);
+    showCart();
+}
+
+function checkout() {
+    if(cart.length === 0) {
+        alert("Silakan pilih produk terlebih dahulu.");
+        return;
+    }
+
+    let message = "Halo ÉLYSIA, saya ingin memesan:%0A";
+    let total = 0;
+
+    cart.forEach(item => {
+        message += "- " + item.name + " Rp" +
+        item.price.toLocaleString("id-ID") + "%0A";
+        total += item.price;
+    });
+
+    message += "%0ATotal: Rp" +
+    total.toLocaleString("id-ID");
+
+    window.open(
+        "https://wa.me/6281234567890?text=" + message,
+        "_blank"
+    );
+}
+</script>
+
+</body>
+</html>
